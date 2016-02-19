@@ -1,0 +1,8 @@
+\#*
+.ssh-config
+.vagrant/*
+*.pyc
+*~
+.idea/*
+.cache/*
+*/.cache/*

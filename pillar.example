@@ -1,0 +1,6 @@
+master:
+  lookup:
+    pkg: mymaster
+    conf_file: /usr/local/etc/master/master.conf
+  config:
+    key: othervalue

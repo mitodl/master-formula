@@ -1,0 +1,45 @@
+{% set master = salt['grains.filter_by']({
+    'Debian': {
+        'pkgs': [
+            'libssl-dev',
+            'build-essential',
+            'salt-doc',
+            'salt-api',
+            'salt-cloud',
+            'reclass'
+        ],
+        'pip-deps': [
+            'pygit2'
+        ]
+        'service': 'master',
+        'conf_file': '/etc/master/master.conf',
+    },
+    'RedHat': {
+        'pkgs': [],
+        'service': 'master',
+        'conf_file': '/etc/master/master.conf',
+    },
+}, grain='os_family', merge=salt['pillar.get']('master:lookup')) %}
+
+
+{% set master_config = salt['pillar.get']('master:config', {
+    'key': 'value',
+}, merge=True) %}
+
+{# If Lithium gets released then below code can be uncommentted because it is more DRY #}
+{#
+{% set master = salt['grains.filter_by']({
+    'default': {
+        'pkg': 'master',
+        'service': 'master',
+        'conf_file': '/etc/master/master.conf',
+        'config': {
+            'key': 'value',
+        },
+    },
+    'Debian': {
+    },
+    'RedHat': {
+    },
+}, grain='os_family', merge=salt['pillar.get']('master:lookup'), base='default') %}
+#}
