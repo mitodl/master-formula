@@ -4,8 +4,8 @@ def test_salt_installed(Package):
 
 
 def test_libcloud_installed(PythonPackage):
-    # assert 'apache-libcloud' in Pip().keys()
     assert PythonPackage('apache-libcloud').is_installed
+
 
 def test_salt_running(Service):
     assert Service('salt-minion').is_running

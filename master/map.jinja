@@ -1,4 +1,29 @@
 {% set master = salt['grains.filter_by']({
+    'default': {
+        'pip_deps': [
+            'GitPython',
+            'apache-libcloud'
+        ],
+        'services': [
+            'salt-api',
+            'salt-master',
+            'salt-minion'
+        ],
+        'conf_file': '/etc/master/master.conf',
+        'nginx_config_path': '/etc/nginx/sites-enabled',
+        'api_users': [
+            {
+                'name': 'apiadmin',
+                'password': 'Ch@ng3m3!',
+                'permissions': [
+                    '.*',
+                    '@runner',
+                    '@wheel',
+                    '@jobs'
+                ]
+            }
+        ],
+    },
     'Debian': {
         'pkgs': [
             'libssl-dev',
@@ -6,40 +31,43 @@
             'salt-doc',
             'salt-api',
             'salt-cloud',
-            'reclass'
+            'reclass',
+            'git',
+            'python-dev',
+            'libffi-dev',
         ],
-        'pip-deps': [
-            'pygit2'
-        ]
-        'service': 'master',
-        'conf_file': '/etc/master/master.conf',
     },
     'RedHat': {
-        'pkgs': [],
-        'service': 'master',
-        'conf_file': '/etc/master/master.conf',
-    },
-}, grain='os_family', merge=salt['pillar.get']('master:lookup')) %}
-
-
-{% set master_config = salt['pillar.get']('master:config', {
-    'key': 'value',
-}, merge=True) %}
-
-{# If Lithium gets released then below code can be uncommentted because it is more DRY #}
-{#
-{% set master = salt['grains.filter_by']({
-    'default': {
-        'pkg': 'master',
-        'service': 'master',
-        'conf_file': '/etc/master/master.conf',
-        'config': {
-            'key': 'value',
-        },
-    },
-    'Debian': {
-    },
-    'RedHat': {
+        'pkgs': [
+            'libssl-devel',
+            'gcc',
+            'make',
+            'salt-doc',
+            'salt-api',
+            'salt-cloud',
+            'reclass',
+            'git',
+            'python-devel',
+            'libffi-devel',
+        ],
     },
 }, grain='os_family', merge=salt['pillar.get']('master:lookup'), base='default') %}
-#}
+
+{% set master_ssl = salt['grains.filter_by']({
+    'default': {
+        'cert_path': '/etc/ssl/salt_master.crt',
+        'key_path': '/etc/ssl/salt_master.key',
+        'cert_source': False,
+        'key_source': False
+    }
+}, grain='os_family', merge=salt['pillar.get']('master:ssl')) %}
+
+{% set molten = salt['grains.filter_by']({
+    'default': {
+        'install_dir': '/var/www',
+        'package': {
+            'version': '0.2.0',
+            'sha1': '9e282941be0db44744f4dae70b8c78c2fc8b3ea4'
+        }
+    }
+}, grain='os_family', merge=salt['pillar.get']('master:molten')) %}

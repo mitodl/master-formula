@@ -2,21 +2,6 @@ import pytest
 
 
 @pytest.fixture()
-def Pip(Command):
-    def f(pip_bin=None):
-        pip_dict = {}
-        if pip_bin:
-            args = ['%s freeze', pip_bin]
-        else:
-            args = ['pip freeze']
-        for pkg in Command.check_output(*args).split('\n'):
-            name, version = pkg.strip().split('==')
-            pip_dict[name] = version
-        return pip_dict
-    return f
-
-
-@pytest.fixture()
 def PythonPackage(Command):
     class PipClass():
         def __init__(self, pkg_name, pip_bin=None):
@@ -35,6 +20,6 @@ def PythonPackage(Command):
             return bool(self.pip_dict.get(self.pkg_name))
 
         @property
-        def version(pkg_name):
+        def version(self, pkg_name):
             return self.pip_dict.get(self.pkg_name)
     return PipClass

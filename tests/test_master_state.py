@@ -9,6 +9,7 @@ def test_master_config_files(File):
     assert File('/etc/salt/master.d/gitfs.conf').exists
     assert File('/etc/salt/master.d/gitfs.conf').is_file
 
+
 def test_cloud_config_directories(File):
     assert File('/etc/salt/cloud.providers.d').is_directory
     assert File('/etc/salt/cloud.profiles.d').is_directory
