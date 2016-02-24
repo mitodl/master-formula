@@ -2,4 +2,4 @@
 
 sudo pip install testinfra
 sudo rm -rf /vagrant/tests/__pycache__
-testinfra /vagrant/tests -k "not saltpad"
+testinfra /vagrant/tests -k "not saltpad and not production"

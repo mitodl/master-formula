@@ -38,13 +38,6 @@ setup_master_ssl_cert:
     {% endfor -%}
 {% endif %}
 
-install_master_dhparam:
-  file.managed:
-    - name: /etc/salt/ssl/certs/dhparam.pem
-    - source: salt://master/files/dhparam.pem
-    - mode: 644
-    - makedirs: True
-
 create_salt_api_config:
   file.managed:
     - name: /etc/salt/master.d/netapi.conf

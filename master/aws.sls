@@ -4,6 +4,7 @@
 install_aws_python_dependencies:
   pip.installed:
     - names: {{ master_aws.pip_deps }}
+    - reload_modules: True
 
 create_aws_cloud_config:
   file.managed:
@@ -14,16 +15,18 @@ create_aws_cloud_config:
     - context:
         aws_providers: {{ master_aws.providers }}
 
+{% for provider in master_aws.providers %}
 create_aws_ssh_key_directory:
   file.directory:
-    - name: {{ master_aws.private_key_path }}
+    - name: {{ provider.private_key_path }}
     - makedirs: True
 
 create_aws_ssh_key:
   module.run:
     - name: boto_ec2.create_key
-    - key_name: {{ master_aws.keyname }}
-    - save_path: {{ master_aws.private_key_path }}/{{ master_aws.keyname }}
+    - key_name: {{ provider.keyname }}
+    - save_path: {{ provider.private_key_path }}/{{ provider.keyname }}
     - require:
         - file: create_aws_ssh_key_directory
-    - unless: ls {{ master_aws_private_key_path }}/{{ master_aws.keyname }}
+    - unless: ls {{ provider.private_key_path }}/{{ provider.keyname }}
+{% endfor %}

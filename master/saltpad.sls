@@ -22,6 +22,13 @@ set_saltpad_config:
     - context:
         salt_domain: {{ master.domain }}
 
+install_master_dhparam:
+  file.managed:
+    - name: /etc/salt/ssl/certs/dhparam.pem
+    - source: {{ master_ssl.get('dhparam_source', 'salt://master/files/dhparam.pem') }}
+    - mode: 644
+    - makedirs: True
+
 saltpad_nginx_config:
   file.managed:
     - name: {{ master.nginx_config_path }}/saltpad
@@ -34,6 +41,7 @@ saltpad_nginx_config:
         server_name: {{ master.saltpad.server_name }}
     - require:
         - pkg: install_nginx_on_master
+        - file: install_master_dhparam
 
 remove_default_nginx_config:
   file.absent:

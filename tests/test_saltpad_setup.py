@@ -20,6 +20,11 @@ def test_saltpad_nginx_config_present(File):
 
 
 @pytest.mark.saltpad
+def test_dhparam_created(File):
+    assert File('/etc/salt/ssl/certs/dhparam.pem').exists
+
+
+@pytest.mark.saltpad
 def test_nginx_listening(Socket):
     assert Socket('tcp://0.0.0.0:80').is_listening
     assert Socket('tcp://:::80').is_listening

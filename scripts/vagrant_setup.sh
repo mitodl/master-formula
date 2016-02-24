@@ -13,4 +13,5 @@ echo "\
 base:
   '*':
     - master
-    - master.api" | sudo tee /srv/salt/top.sls
+    - master.api
+    - master.aws" | sudo tee /srv/salt/top.sls
