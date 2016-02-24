@@ -7,10 +7,12 @@ install_master_package_dependencies:
   pkg.installed:
     - pkgs: {{ master.pkgs }}
     - refresh: True
+    - reload_modules: True
 
 install_master_python_dependencies:
   pip.installed:
     - names: {{ master.pip_deps }}
+    - reload_modules: True
 
 make_cloud_provider_dir:
   file.directory:
@@ -73,3 +75,8 @@ salt_minion_running:
   service.running:
     - name: salt-minion
     - enable: True
+
+accept_minion_key:
+  cmd.run:
+    - name: salt-key -y -A
+    - unless: [[ `salt-key -l acc | wc -l` > 1 ]]

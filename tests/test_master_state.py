@@ -1,8 +1,6 @@
 def test_package_dependencies_installed(Package):
     assert Package('salt-cloud').is_installed
     assert Package('salt-api').is_installed
-    assert Package('salt-doc').is_installed
-    assert Package('reclass').is_installed
 
 
 def test_cloud_config_directories(File):

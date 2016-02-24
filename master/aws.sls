@@ -26,10 +26,10 @@ create_aws_ssh_key_directory:
     - makedirs: True
 
 create_aws_ssh_key:
-  module.run:
-    - name: boto_ec2.create_key
-    - key_name: {{ provider.keyname }}
-    - save_path: {{ provider.private_key_path }}/{{ provider.keyname }}
+  boto_ec2.key_present:
+    - name: {{ provider.keyname  }}
+    - save_private: {{ provider.private_key_path }}/{{ provider.keyname }}
+    - region: {{ provider.get('region', 'us-east-1') }}
     - require:
         - file: create_aws_ssh_key_directory
     - unless: ls {{ provider.private_key_path }}/{{ provider.keyname }}

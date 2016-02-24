@@ -4,6 +4,7 @@
         'pip_deps': [
             'GitPython',
             'apache-libcloud',
+            'PyOpenssl'
         ],
         'services': [
             'salt-api',
@@ -41,13 +42,11 @@
     },
     'RedHat': {
         'pkgs': [
-            'libssl-devel',
+            'openssl-devel',
             'gcc',
             'make',
-            'salt-doc',
             'salt-api',
             'salt-cloud',
-            'reclass',
             'git',
             'python-devel',
             'python-pip',
