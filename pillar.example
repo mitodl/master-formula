@@ -26,5 +26,7 @@ salt_master:
       params:
         reclass:
           inventory_base_uri: /etc/reclass
-  aws:
-    enable: True
+  minion_configs:
+    extra_settings:
+      nested: False
+      id: secretary

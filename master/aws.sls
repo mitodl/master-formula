@@ -1,5 +1,7 @@
 {% from "master/map.jinja" import master with context %}
 {% from "master/map.jinja" import master_aws with context %}
+include:
+  - master
 
 install_aws_python_dependencies:
   pip.installed:
@@ -14,6 +16,8 @@ create_aws_cloud_config:
     - makedirs: True
     - context:
         aws_providers: {{ master_aws.providers }}
+    - watch_in:
+        - service: salt_master_running
 
 {% for provider in master_aws.providers %}
 create_aws_ssh_key_directory:

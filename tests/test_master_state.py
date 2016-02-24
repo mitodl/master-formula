@@ -20,3 +20,9 @@ def test_extra_configs(File):
     ext_pillar = File('/etc/salt/master.d/ext_pillar.conf')
     assert ext_pillar.exists
     assert ext_pillar.contains('reclass')
+
+
+def test_extra_minion_configs(File):
+    minion_settings = File('/etc/salt/minion.d/extra_settings.conf')
+    assert minion_settings.exists
+    assert minion_settings.contains('id: secretary')

@@ -22,6 +22,16 @@ make_cloud_profile_dir:
     - name: /etc/salt/cloud.profiles.d
     - makedirs: True
 
+make_master_config_directory:
+  file.directory:
+    - name: /etc/salt/master.d
+    - makedirs: True
+
+make_minion_config_directory:
+  file.directory:
+    - name: /etc/salt/minion.d
+    - makedirs: True
+
 configure_gitfs:
   file.managed:
     - name: /etc/salt/master.d/gitfs.conf
@@ -38,6 +48,19 @@ configure_gitfs:
     - template: jinja
     - context:
         config: {{ settings }}
+    - watch_in:
+        - service: salt_master_running
+{% endfor %}
+
+{% for fname, settings in salt.pillar.get('salt_master:minion_configs', {}).items() %}
+/etc/salt/minion.d/{{fname}}.conf:
+  file.managed:
+    - source: salt://master/templates/conf-template.conf
+    - template: jinja
+    - context:
+        config: {{ settings }}
+    - watch_in:
+        - service: salt_minion_running
 {% endfor %}
 
 # Ensure salt services are enabled and running
