@@ -5,11 +5,18 @@ def test_package_dependencies_installed(Package):
     assert Package('reclass').is_installed
 
 
-def test_master_config_files(File):
-    assert File('/etc/salt/master.d/gitfs.conf').exists
-    assert File('/etc/salt/master.d/gitfs.conf').is_file
-
-
 def test_cloud_config_directories(File):
     assert File('/etc/salt/cloud.providers.d').is_directory
     assert File('/etc/salt/cloud.profiles.d').is_directory
+
+
+def test_gitfs_config(File):
+    gitfs_config = File('/etc/salt/master.d/gitfs.conf')
+    assert gitfs_config.exists
+    assert gitfs_config.contains('github.com/blarghmatey')
+
+
+def test_extra_configs(File):
+    ext_pillar = File('/etc/salt/master.d/ext_pillar.conf')
+    assert ext_pillar.exists
+    assert ext_pillar.contains('reclass')

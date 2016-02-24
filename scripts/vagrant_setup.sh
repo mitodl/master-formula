@@ -13,5 +13,4 @@ echo "\
 base:
   '*':
     - master
-    - master.api
-    - master.molten" | sudo tee /srv/salt/top.sls
+    - master.api" | sudo tee /srv/salt/top.sls

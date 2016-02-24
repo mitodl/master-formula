@@ -1,23 +1,30 @@
-master:
+salt_master:
   git_remotes:
     - https://github.com/blarghmatey/nginx-formula
   lookup:
+    domain: salt.mitx.mit.edu
     pkg: mymaster
     conf_file: /usr/local/etc/master/master.conf
-  molten:
-    install_dir: /var/www/
-    package:
-      version: 0.2.0
-      sha1: 9e282941be0db44744f4dae70b8c78c2fc8b3ea4
+    saltpad:
+      install_dir: /var/www/saltpad
+      version: v0.2
+      server_name: null
   ssl:
-    cert_path: /etc/ssl/certs/salt_master.crt
-    key_path: /etc/ssl/certs/salt_master.key
-    cert_source: salt://master/files/master.crt
-    key_source: salt://master/files/master.key
-    emailAddress: your@name.com
-    bits: 4096
-    CN: salt.yourdomain.com
-    ST: MA
-    L: Boston
-    O: Your Company
-    OU: Your Department
+    cert_path: /etc/salt/ssl/certs/salt.yourdomain.com.crt
+    key_path: /etc/salt/ssl/certs/salt.yourdomain.com.key
+    cert_params:
+      emailAddress: your@name.com
+      bits: 4096
+      CN: salt.yourdomain.com
+      ST: MA
+      L: Boston
+      O: Your Company
+      OU: Your Department
+  extra_configs:
+    ext_pillar:
+      name: ext_pillar
+      params:
+        reclass:
+          inventory_base_uri: /etc/reclass
+  aws:
+    enable: True

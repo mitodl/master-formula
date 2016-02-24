@@ -1,8 +1,9 @@
 {% set master = salt['grains.filter_by']({
     'default': {
+        'domain': 'salt.your.company.com',
         'pip_deps': [
             'GitPython',
-            'apache-libcloud'
+            'apache-libcloud',
         ],
         'services': [
             'salt-api',
@@ -34,6 +35,7 @@
             'reclass',
             'git',
             'python-dev',
+            'python-pip',
             'libffi-dev',
         ],
     },
@@ -48,26 +50,34 @@
             'reclass',
             'git',
             'python-devel',
+            'python-pip',
             'libffi-devel',
         ],
     },
-}, grain='os_family', merge=salt['pillar.get']('master:lookup'), base='default') %}
+}, grain='os_family', merge=salt.pillar.get('salt_master:lookup'), base='default') %}
 
 {% set master_ssl = salt['grains.filter_by']({
     'default': {
-        'cert_path': '/etc/ssl/salt_master.crt',
-        'key_path': '/etc/ssl/salt_master.key',
+        'cert_path': '/etc/salt/ssl/certs/localhost.crt',
+        'key_path': '/etc/salt/ssl/certs/localhost.key',
         'cert_source': False,
         'key_source': False
     }
-}, grain='os_family', merge=salt['pillar.get']('master:ssl')) %}
+}, grain='os_family', merge=salt.pillar.get('salt_master:ssl')) %}
 
-{% set molten = salt['grains.filter_by']({
+{% set master_aws = salt['grains.filter_by']({
     'default': {
-        'install_dir': '/var/www',
-        'package': {
-            'version': '0.2.0',
-            'sha1': '9e282941be0db44744f4dae70b8c78c2fc8b3ea4'
-        }
+        'providers': [
+            {
+            'name': 'aws_provider',
+            'id': 'use-instance-role-credentials',
+            'key': 'use-instance-role-credentials',
+            'keyname': 'salt-master',
+            'private_key_path': '/etc/salt/keys/aws',
+            }
+        ],
+        'pip_deps': [
+            'boto'
+        ]
     }
-}, grain='os_family', merge=salt['pillar.get']('master:molten')) %}
+}, grain='os_family', merge=salt.pillar.get('salt_master:aws', {})) %}

@@ -1,0 +1,24 @@
+{
+    "API_URL": "localhost:8080",
+    "SECURE_HTTP": true,
+    "templates": {
+        "basic": {
+            "description": "Basic template",
+            "matcher": "glob",
+            "target": "*",
+            "moduleFunction": "test.fib",
+            "arguments": {
+                "num": 10
+            }
+        },
+
+        "version": {
+            "description": "Basic version",
+            "matcher": "glob",
+            "target": "Celeste",
+            "moduleFunction": "test.version",
+            "arguments": {}
+        }
+    },
+    "EAUTH": "pam"
+}
