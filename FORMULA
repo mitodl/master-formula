@@ -1,0 +1,7 @@
+name: master
+os: RedHat, CentOS, Ubuntu, Debian
+os_family: RedHat, Debian
+version: 201602
+release: 1
+summary: Opinionated formula for building a salt master
+description: Opinionated formula for building a salt master
