@@ -79,4 +79,4 @@ salt_minion_running:
 accept_minion_key:
   cmd.run:
     - name: salt-key -y -A
-    - unless: [[ `salt-key -l acc | wc -l` > 1 ]]
+    - unless: "[[ `salt-key -l acc | wc -l` > 1 ]]"
