@@ -19,12 +19,22 @@ Available states
 ``master``
 ----------
 
-TODO - add description of this state
+Sets up a salt master node with a `secretary` minion for configuring it and executing maintenance tasks. Allows for a largely pillar based customization of the master node. Includes gitfs with repos defined by pillar.
 
-``master.conf``
+``master.api``
 ---------------
 
-TODO - add description of this state
+Sets up the salt api with SSL certificate, running on Tornado.
+
+``master.saltpad``
+---------------
+
+Installs and configures a SaltPad Web UI. As of 2016-02-25 this requires a development version of SaltStack (refer to SaltPad readme for details).
+
+``master.aws``
+---------------
+
+Sets up and configures AWS as a provider for salt-cloud. Registers an SSH key with AWS to be used for communicating with minions when they are launched.
 
 
 Template
@@ -32,4 +42,4 @@ Template
 
 This formula was created from a cookiecutter template.
 
-See https://github.com/slafs/cookiecutter-saltstack-formula.
+See https://github.com/mitodl/saltstack-formula-cookiecutter
