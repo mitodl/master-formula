@@ -8,16 +8,13 @@ def test_cloud_config_directories(File):
     assert File('/etc/salt/cloud.profiles.d').is_directory
 
 
-def test_gitfs_config(File):
-    gitfs_config = File('/etc/salt/master.d/gitfs.conf')
-    assert gitfs_config.exists
-    assert gitfs_config.contains('github.com/blarghmatey')
-
-
 def test_extra_configs(File):
     ext_pillar = File('/etc/salt/master.d/ext_pillar.conf')
+    extfs = File('/etc/salt/master.d/extfs.conf')
     assert ext_pillar.exists
     assert ext_pillar.contains('reclass')
+    assert extfs.exists
+    assert extfs.contains('git_remotes')
 
 
 def test_extra_minion_configs(File):
