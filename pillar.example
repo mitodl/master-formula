@@ -1,6 +1,4 @@
 salt_master:
-  git_remotes:
-    - https://github.com/blarghmatey/nginx-formula
   lookup:
     domain: salt.mitx.mit.edu
     saltpad:
@@ -19,6 +17,12 @@ salt_master:
       O: Your Company
       OU: Your Department
   extra_configs:
+    extfs:
+      fileserver_backends:
+        - git
+        - roots
+      git_remotes:
+        - https://github.com/blarghmatey/nginx-formula
     ext_pillar:
       name: ext_pillar
       params:

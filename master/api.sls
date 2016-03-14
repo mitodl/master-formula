@@ -19,13 +19,13 @@ create_api_user_{{ user.name }}:
 setup_master_ssl_cert:
   file.managed:
     - name: /etc/salt/ssl/certs/{{ master_ssl.cert_path }}
-    - source: /etc/salt/ssl/certs/{{ master_ssl.cert_source }}
+    - source: {{ master_ssl.cert_source }}
     - makedirs: True
 
 setup_master_ssl_key:
   file.managed:
     - name: {{ master_ssl.key_path }}
-    - source: {{ master_ssl.key_path }}
+    - source: {{ master_ssl.key_source }}
     - makedirs: True
 {% else %}
 setup_master_ssl_cert:
