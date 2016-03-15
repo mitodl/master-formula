@@ -36,10 +36,8 @@ make_minion_config_directory:
 {% for fname, settings in salt.pillar.get('salt_master:extra_configs', {}).items() %}
 /etc/salt/master.d/{{fname}}.conf:
   file.managed:
-    - source: salt://master/templates/conf-template.conf
-    - template: jinja
-    - context:
-        config: {{ settings }}
+    - contents: |
+        {{ settings|yaml()|indent(2) }}
     - watch_in:
         - service: salt_master_running
 {% endfor %}
@@ -47,10 +45,8 @@ make_minion_config_directory:
 {% for fname, settings in salt.pillar.get('salt_master:minion_configs', {}).items() %}
 /etc/salt/minion.d/{{fname}}.conf:
   file.managed:
-    - source: salt://master/templates/conf-template.conf
-    - template: jinja
-    - context:
-        config: {{ settings }}
+    - contents: |
+        {{ settings|yaml()|indent(2) }}
     - watch_in:
         - service: salt_minion_running
 {% endfor %}
