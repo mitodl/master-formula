@@ -37,7 +37,7 @@ make_minion_config_directory:
 /etc/salt/master.d/{{fname}}.conf:
   file.managed:
     - contents: |
-        {{ settings.params | yaml(False) | indent(8) }}
+        {{ settings | yaml(False) | indent(8) }}
     - watch_in:
         - service: salt_master_running
 {% endfor %}
@@ -46,7 +46,7 @@ make_minion_config_directory:
 /etc/salt/minion.d/{{fname}}.conf:
   file.managed:
     - contents: |
-        {{ settings.extra_settings | yaml(False) | indent(8) }}
+        {{ settings | yaml(False) | indent(8) }}
     - watch_in:
         - service: salt_minion_running
 {% endfor %}
