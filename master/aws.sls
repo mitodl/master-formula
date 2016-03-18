@@ -22,15 +22,15 @@ create_aws_cloud_config:
 {% for provider in master_aws.providers %}
 create_aws_ssh_key_directory_for_{{ provider.name }}:
   file.directory:
-    - name: {{ provider.private_key_path }}
+    - name: /etc/salt/keys/aws/
     - makedirs: True
 
 create_aws_ssh_key_for_{{ provider.name }}:
   boto_ec2.key_present:
-    - name: {{ provider.keyname  }}
-    - save_private: {{ provider.private_key_path }}
+    - name: {{ provider.keyname }}
+    - save_private: /etc/salt/keys/aws/
     - region: {{ provider.get('region', 'us-east-1') }}
     - require:
         - file: create_aws_ssh_key_directory_for_{{ provider.name }}
-    - unless: ls {{ provider.private_key_path }}/{{ provider.keyname }}
+    - unless: ls /etc/salt/keys/aws/{{ provider.keyname }}.pem
 {% endfor %}
