@@ -2,6 +2,10 @@
 {% from "master/map.jinja" import master_ssl with context %}
 {% from "master/map.jinja" import master_aws with context %}
 
+include:
+  - .config
+  - .services
+
 install_master_package_dependencies:
   pkg.installed:
     - pkgs: {{ master.pkgs }}
@@ -32,35 +36,6 @@ make_minion_config_directory:
   file.directory:
     - name: /etc/salt/minion.d
     - makedirs: True
-
-{% for fname, settings in salt.pillar.get('salt_master:extra_configs', {}).items() %}
-/etc/salt/master.d/{{fname}}.conf:
-  file.managed:
-    - contents: |
-        {{ settings | yaml(False) | indent(8) }}
-    - watch_in:
-        - service: salt_master_running
-{% endfor %}
-
-{% for fname, settings in salt.pillar.get('salt_master:minion_configs', {}).items() %}
-/etc/salt/minion.d/{{fname}}.conf:
-  file.managed:
-    - contents: |
-        {{ settings | yaml(False) | indent(8) }}
-    - watch_in:
-        - service: salt_minion_running
-{% endfor %}
-
-# Ensure salt services are enabled and running
-salt_master_running:
-  service.running:
-    - name: salt-master
-    - enable: True
-
-salt_minion_running:
-  service.running:
-    - name: salt-minion
-    - enable: True
 
 accept_minion_key:
   cmd.run:
