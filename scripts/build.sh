@@ -7,5 +7,3 @@ then
 fi
 sudo mkdir -p /srv/salt
 sudo mkdir -p /srv/pillar
-sudo mkdir -p /srv/formulas
-# sudo cp minion.conf /etc/salt/minion.d/minion.conf

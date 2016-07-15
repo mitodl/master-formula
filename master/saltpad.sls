@@ -7,7 +7,7 @@ install_nginx_on_master:
 
 saltpad-archive:
   archive.extracted:
-    - name: {{ master.saltpad.install_dir}}
+    - name: {{ master.saltpad.install_dir }}
     - source: https://github.com/Lothiraldan/saltpad/releases/download/{{ master.saltpad.version }}/dist.zip
     - source_hash: sha1=https://github.com/Lothiraldan/saltpad/releases/download/{{ master.saltpad.version }}/dist.zip.sha1
     - archive_format: zip
