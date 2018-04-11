@@ -37,6 +37,11 @@ make_minion_config_directory:
     - name: /etc/salt/minion.d
     - makedirs: True
 
+make_cloud_config_directory:
+  file.directory:
+    - name: /etc/salt/cloud.d
+    - makedirs: True
+
 accept_minion_key:
   cmd.run:
     - name: salt-key -y -A
