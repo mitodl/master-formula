@@ -25,10 +25,22 @@ create_aws_ssh_key_directory_for_{{ provider.name }}:
     - name: /etc/salt/keys/aws/
     - makedirs: True
 
+{% if provider.get('key_pair') %}
+place_private_key_for_{{ provider.name }}_on_master:
+  file.managed:
+    - name: /etc/salt/keys/aws/{{ provider.keyname }}
+    - content: |
+        {{ provider.key_pair.private|indent(8) }}
+{% endif %}
+
 create_aws_ssh_key_for_{{ provider.name }}:
   boto_ec2.key_present:
     - name: {{ provider.keyname }}
-    - save_private: /etc/salt/keys/aws/
+    {% if provider.get('key_pair') %}
+    - upload_public: {{ provider.key_pair.public }}
+    {% else %}
+    - save_private: /etc/salt/keys/aws/{{ provider.keyname }}
+    {% endif %}
     - region: {{ provider.get('region', 'us-east-1') }}
     - require:
         - file: create_aws_ssh_key_directory_for_{{ provider.name }}
