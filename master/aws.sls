@@ -29,6 +29,7 @@ create_aws_ssh_key_directory_for_{{ provider.name }}:
 place_private_key_for_{{ provider.name }}_on_master:
   file.managed:
     - name: /etc/salt/keys/aws/{{ provider.keyname }}
+    - mode: '0400'
     - content: |
         {{ provider.key_pair.private|indent(8) }}
 {% endif %}
