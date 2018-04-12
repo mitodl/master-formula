@@ -30,7 +30,7 @@ place_private_key_for_{{ provider.name }}_on_master:
   file.managed:
     - name: /etc/salt/keys/aws/{{ provider.keyname }}
     - mode: '0400'
-    - content: |
+    - contents: |
         {{ provider.key_pair.private|indent(8) }}
 {% endif %}
 
