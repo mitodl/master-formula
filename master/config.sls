@@ -33,13 +33,17 @@ include:
     - makedirs: True
 {% endfor %}
 
-{% for proxyid in salt.pillar.get('salt_master:proxy_configs:apps') %}
-/etc/systemd/system/{{ proxyid }}.service:
+/etc/systemd/system/salt-proxy.service:
   file.managed:
-    - name: /etc/systemd/system/{{ proxyid }}@.service
+    - name: /etc/systemd/system/salt-proxy@.service
     - source: salt://master/templates/salt_proxy.service
   cmd.run:
     - name: systemctl daemon-reload
     - onchanges:
-        - file: /etc/systemd/system/{{ proxyid }}@.service
+        - file: /etc/systemd/system/salt-proxy@.service
+
+{% for proxyid in salt.pillar.get('salt_master:proxy_configs:apps') %}
+enable_salt_proxy_{{proxyid}}:
+  cmd.run:
+    - name: systemctl enable -now salt-proxy@{{ proxyid }}.service
 {% endfor %}
