@@ -44,6 +44,7 @@ include:
 
 {% for proxyid in salt.pillar.get('salt_master:proxy_configs:apps') %}
 enable_salt_proxy_{{proxyid}}:
-  cmd.run:
-    - name: systemctl enable -now salt-proxy@{{ proxyid }}.service
+  service.running:
+    - name: salt-proxy@{{ proxyid }}.service
+    - enable: True
 {% endfor %}
