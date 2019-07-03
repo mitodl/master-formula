@@ -1,0 +1,11 @@
+[Unit]
+Description=%i proxy minion
+After=syslog.target
+
+[Service]
+ExecStart=/usr/bin/salt-proxy --proxyid=%i --daemon --log-file=/var/log/salt/%i.log
+Restart=always
+KillSignal=SIGQUIT
+
+[Install]
+WantedBy=multi-user.target
