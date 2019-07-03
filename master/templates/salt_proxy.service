@@ -1,9 +1,9 @@
 [Unit]
-Description={{ proxyid }} proxy minion
+Description=%i proxy minion
 After=syslog.target
 
 [Service]
-ExecStart=/usr/bin/salt-proxy --proxyid={{ proxyid }} --daemon --log-file=/var/log/salt/{{ proxyid }}.log
+ExecStart=/usr/bin/salt-proxy --proxyid=%i --daemon --log-file=/var/log/salt/%i.log
 Restart=always
 KillSignal=SIGQUIT
 
