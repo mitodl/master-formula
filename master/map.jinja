@@ -56,7 +56,7 @@
             'libffi-devel',
         ],
     },
-}, grain='os_family', merge=salt.pillar.get('salt_master:overrides'), base='default') %}
+}, grain='os_family', merge=salt.pillar.get('salt_master:overrides'), default='Debian', base='default') %}
 
 {% set master_ssl = salt['grains.filter_by']({
     'default': {
