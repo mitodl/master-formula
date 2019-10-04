@@ -65,7 +65,7 @@
         'cert_source': False,
         'key_source': False
     }
-}, grain='os_family', merge=salt.pillar.get('salt_master:ssl')) %}
+}, grain='os_family', merge=salt.pillar.get('salt_master:ssl'), default='default') %}
 
 {% set master_aws = salt['grains.filter_by']({
     'default': {
@@ -81,4 +81,4 @@
             'boto'
         ]
     }
-}, grain='os_family', merge=salt.pillar.get('salt_master:aws', {})) %}
+}, grain='os_family', merge=salt.pillar.get('salt_master:aws', {}), default='default') %}
