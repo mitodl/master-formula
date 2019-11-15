@@ -32,18 +32,22 @@ place_private_key_for_{{ provider.name }}_on_master:
     - mode: '0400'
     - contents: |
         {{ provider.key_pair.private|indent(8) }}
+{% else %}
+generate_keypair_for_{{ provider.name }}_on_master:
+  cmd.run:
+    - name: ssh-keygen -b 4096 -C '{{ provider.keyname }}@AWS_EC2' -f /etc/salt/keys/aws/{{ provider.keyname }}.pem -m PEM -t rsa -q -P ''
+    - creates: /etc/salt/keys/aws/{{ provider.keyname }}.pem
 {% endif %}
 
 create_aws_ssh_key_for_{{ provider.name }}:
   boto_ec2.key_present:
     - name: {{ provider.keyname }}
-    {% if provider.get('key_pair') %}
-    - upload_public: {{ provider.key_pair.public }}
-    {% else %}
-    - save_private: /etc/salt/keys/aws/
-    {% endif %}
+    - upload_public: __slot__:salt:cmd.run(ssh-keygen -f /etc/salt/keys/aws/{{ provider.keyname }}.pem -e)
     - region: {{ provider.get('region', 'us-east-1') }}
     - require:
         - file: create_aws_ssh_key_directory_for_{{ provider.name }}
     - unless: ls /etc/salt/keys/aws/{{ provider.keyname }}.pem
+  file.managed:
+    - name: /etc/salt/keys/aws/{{ provider.keyname }}.pem
+    - mode: '0400'
 {% endfor %}
