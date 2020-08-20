@@ -32,3 +32,11 @@ salt_master:
     extra_settings:
       nested: False
       id: secretary
+  api_users:
+    - name: apiadmin
+      password: 'Ch@ng3m3!'
+      permissions:
+        - '.*'
+        - '@runner'
+        - '@wheel'
+        - '@jobs'

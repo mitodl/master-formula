@@ -14,16 +14,6 @@
         'conf_file': '/etc/master/master.conf',
         'nginx_config_path': '/etc/nginx/sites-enabled',
         'api_users': [
-            {
-                'name': 'apiadmin',
-                'password': 'Ch@ng3m3!',
-                'permissions': [
-                    '.*',
-                    '@runner',
-                    '@wheel',
-                    '@jobs'
-                ]
-            }
         ],
         'saltpad': {
             'install_dir': '/var/www/saltpad'
