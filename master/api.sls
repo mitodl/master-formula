@@ -9,8 +9,6 @@ create_api_user_{{ user.name }}:
     - password: {{ user_pass }}
     - createhome: False
     - shell: /bin/false
-    - watch_in:
-        file: create_salt_api_config
 {% endfor %}
 
 
@@ -38,21 +36,7 @@ setup_master_ssl_cert:
     {% endfor -%}
 {% endif %}
 
-create_salt_api_config:
-  file.managed:
-    - name: /etc/salt/master.d/netapi.conf
-    - source: salt://master/templates/netapi.conf
-    - makedirs: True
-    - template: jinja
-    - context:
-        api_users: {{ master.api_users }}
-        cert_path: {{ master_ssl.cert_path }}
-        key_path: {{ master_ssl.key_path }}
-        salt_domain: {{ master.domain }}
-
 salt_api_running:
   service.running:
     - name: salt-api
     - enable: True
-    - watch:
-        - file: create_salt_api_config
