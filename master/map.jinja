@@ -56,7 +56,7 @@
             'libffi-devel',
         ],
     },
-}, grain='os_family', merge=salt.pillar.get('salt_master:overrides'), default='Debian', base='default') %}
+}, grain='os_family', merge=salt.pillar.get('salt_master'), base='default') %}
 
 {% set master_ssl = salt['grains.filter_by']({
     'default': {
@@ -65,7 +65,7 @@
         'cert_source': False,
         'key_source': False
     }
-}, grain='os_family', merge=salt.pillar.get('salt_master:ssl'), default='default') %}
+}, grain='os_family', merge=salt.pillar.get('salt_master:ssl'), base='default') %}
 
 {% set master_aws = salt['grains.filter_by']({
     'default': {
@@ -81,4 +81,4 @@
             'boto'
         ]
     }
-}, grain='os_family', merge=salt.pillar.get('salt_master:aws', {}), default='default') %}
+}, grain='os_family', merge=salt.pillar.get('salt_master:aws', {}), base='default') %}
