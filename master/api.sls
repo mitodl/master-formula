@@ -1,6 +1,10 @@
 {% from "master/map.jinja" import master with context %}
 {% from "master/map.jinja" import master_ssl with context %}
 
+install_salt_api:
+  pkg.installed:
+    - name: salt-api
+
 {% for user in master.api_users %}
 {% set user_pass = salt.shadow.gen_password(user.password) %}
 create_api_user_{{ user.name }}:
